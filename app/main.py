@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from app.dependencies.db import get_db
 from app.db.base import Base
 from app.db.session import engine
-from app.models import user
-from app.routes import auth,user
+from app.models import user,product
+from app.routes import auth,user as userRoute, product as productRoute
 
 Base.metadata.create_all(bind=engine)
 
@@ -14,7 +14,8 @@ app = FastAPI(
 )
 
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
-app.include_router(user.router, prefix="/user", tags=["Users"])
+app.include_router(userRoute.router, prefix="/user", tags=["Users"])
+app.include_router(productRoute.router, prefix='/product', tags=["Product"])
 
 @app.get("/")
 def health_check() -> dict:
